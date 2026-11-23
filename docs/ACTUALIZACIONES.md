@@ -14,6 +14,14 @@
 
 ---
 
+## 2026-11-23 — Publicación y regla de mantener el sitio al día
+
+**Hecho:** `fase-6-pwa` fusionada a `main` y subida; el sitio no mostraba los cambios porque Pages solo publica `main`.
+**Decidido:** regla nueva en `CLAUDE.md`: al cerrar cada sesión con cambios, subir `VERSION` de `sw.js`, fusionar a `main` y hacer push.
+**Pendiente:** probar instalación y modo avión en el celular contra la URL.
+
+---
+
 ## 2026-11-23 — Selector de clase y tokens de la mesa
 
 **Hecho:**
