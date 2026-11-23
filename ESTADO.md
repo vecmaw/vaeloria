@@ -55,6 +55,8 @@ Repo en https://github.com/vecmaw/vaeloria (público), Pages desde `main` en htt
 
 **Modo en línea planificado (2026-11-23):** cada jugador gestiona solo su personaje y ve a los demás en directo. Firebase + identidad anónima con código de recuperación; v1 local intacta. Fases 8-11 en `docs/FASES.md`. Reglas 4 y 6 reabiertas solo para ese modo.
 
+**Servidor (2026-11-23):** el módulo irá a un servidor que Kevin prepara en su notebook; Firebase queda en revisión hasta hablar con él. Preguntas abiertas en `docs/ARQUITECTURA.md` §8. La Fase 8 no depende de esto.
+
 **Al publicar cambios futuros:** subir `VERSION` en `sw.js`, o nadie verá la actualización.
 
 ---

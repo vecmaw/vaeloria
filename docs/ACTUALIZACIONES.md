@@ -14,6 +14,14 @@
 
 ---
 
+## 2026-11-23 — El servidor será el de Kevin
+
+**Hecho:** nota en `FASES.md` y §8 de `ARQUITECTURA.md` con las preguntas para Kevin.
+**Decidido:** Firebase queda en revisión; la Fase 8 (contrato del almacén) sigue igual y sirve para cualquier servidor.
+**Pendiente:** hablar con Kevin (stack, red local o internet, HTTPS, tiempo real) antes de la Fase 9.
+
+---
+
 ## 2026-11-23 — Planificación del modo en línea
 
 **Hecho:** Fases 8-11 en `docs/FASES.md`; excepciones a las reglas 4 y 6 anotadas en `REGLAS.md`; `ESTADO.md`, `ARQUITECTURA.md` y `APRENDIZAJE.md` al día.

@@ -181,6 +181,12 @@ señal, y un archivo exportado se puede importar en otro teléfono.
 **Idea (2026-11-23):** que cada jugador cree y gestione **solo su personaje**, vea a los demás de la mesa
 y los vea moverse en directo (barras de PX y nivel). Encaja como módulo de la futura plataforma del grupo.
 
+> **Revisión (2026-11-23): el servidor puede ser el de Kevin.** El módulo se integrará a un servidor que
+> Kevin prepara en su notebook. La decisión 2 (Firebase) queda **en revisión hasta hablar con él**: lo que
+> se mantiene es la Fase 8 (contrato del almacén), que sirve para cualquiera de los dos. Con servidor propio,
+> la recuperación de identidad (Fase 11) deja de ser un problema de reglas y se resuelve en el servidor.
+> Preguntas para Kevin: ver `docs/ARQUITECTURA.md` §8.
+
 **Decisiones del dueño (2026-11-23):**
 
 1. **Cada quien edita solo el suyo.** Sin rol de máster por ahora; el máster dice cuántos PX y cada

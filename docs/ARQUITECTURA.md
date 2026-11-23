@@ -204,3 +204,22 @@ Cada paso es aditivo y no rompe lo anterior:
    manteniendo la misma interfaz de funciones.
 3. **Varias campañas** — el estado ya es un objeto con `version`; se le añade `campanas[]`.
 4. **Historial completo de PX por personaje** — el modelo ya reserva el campo.
+
+---
+
+## 8. Servidor de Kevin: preguntas abiertas (2026-11-23)
+
+El módulo se montará en un servidor que Kevin prepara en su notebook. Esto reemplaza a Firebase como
+candidato principal y cambia el riesgo: de "límites de un servicio ajeno" a "disponibilidad de un equipo".
+La app solo necesita que el servidor cumpla el contrato de `almacen.js` (Fase 8).
+
+| Pregunta para Kevin | Por qué importa |
+|---|---|
+| ¿Con qué stack lo hace (Node, Python, PHP, otro)? ¿Qué base de datos? | Decide cómo se escribe el adaptador y si hay tiempo real nativo. |
+| ¿Se accede por red local (Wi-Fi de la mesa) o desde internet? | Por internet exige IP pública, redirección de puertos o un túnel; en red local, nada de eso. |
+| ¿Tendrá HTTPS? | Los service workers y la instalación de la PWA lo exigen. Una página en HTTPS (GitHub Pages) **no puede** llamar a un servidor en `http://` (contenido mixto bloqueado). |
+| ¿El servidor sirve también los archivos del módulo, o solo la API? | Si los sirve él, el mismo origen evita CORS y el bloqueo de contenido mixto. |
+| ¿Puede mandar cambios en vivo (WebSocket o SSE)? | Es lo que mueve las barras de los demás sin recargar. |
+| ¿Quién autentica a los jugadores y cómo? | Define la identidad por dispositivo y la recuperación por código. |
+| ¿Qué pasa si el notebook se apaga? | La app ya funciona sin señal con datos locales; hay que decidir cómo se sincronizan al volver. |
+| ¿Hay copia de seguridad de la base de datos? | Regla 5: nunca perder personajes. |
