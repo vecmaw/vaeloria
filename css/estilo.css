@@ -1,0 +1,900 @@
+/* ============================================================
+   La era del Crepúsculo en Vaeloria — hoja de estilo única
+   Paleta y componentes definidos en docs/DISENO.md
+   ============================================================ */
+
+/* Las tipografías se activan cuando existan los .woff2 en recursos/fuentes
+   (Fase 1, pendiente). Hasta entonces se usa la serif del sistema, que
+   mantiene el tono y no cuesta ni un byte ni una petición de red.
+
+@font-face { font-family: 'Cinzel';     src: url('../recursos/fuentes/cinzel.woff2') format('woff2');     font-weight: 400 700; font-display: swap; }
+@font-face { font-family: 'EB Garamond'; src: url('../recursos/fuentes/garamond.woff2') format('woff2'); font-weight: 400 700; font-display: swap; }
+*/
+
+:root {
+  /* Verde bosque — fondo */
+  --bosque-noche:  #22362A;
+  --bosque:        #2C4535;
+  --bosque-musgo:  #3C5A44;
+
+  /* Cobre — marcos y herrajes */
+  --cobre-sombra:  #7A5334;
+  --cobre:         #A9784E;
+  --cobre-brillo:  #C99A6B;
+
+  /* Pergamino — contenido */
+  --pergamino:     #EFE5CE;
+  --pergamino-som: #D8C5A0;
+
+  /* Hongo — acento principal */
+  --hongo:         #D0602C;
+  --hongo-hondo:   #A94A22;
+
+  /* Musgo — sumar */
+  --musgo:         #7C9A55;
+  --musgo-hondo:   #5C7A46;
+
+  /* Fuego — resplandor */
+  --fuego:         #F0A24B;
+
+  /* Vino — restar */
+  --vino:          #8E3B2A;
+
+  /* Tinta y contorno */
+  --tinta:         #24322A;
+  --tinta-suave:   #55645A;
+  --contorno:      #1A281F;
+
+  --fuente-titulo: 'Cinzel', Georgia, 'Times New Roman', serif;
+  --fuente-cuerpo: 'EB Garamond', Georgia, 'Times New Roman', serif;
+
+  --borde: 2px solid var(--contorno);
+  --sombra-ficha: 0 4px 0 rgba(26, 40, 31, .55), 0 10px 22px rgba(0, 0, 0, .35);
+}
+
+/* ---------- Base ---------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Cualquier regla propia con `display` pisa al atributo `hidden`, y varios de los
+   componentes de aquí usan display:grid o display:flex. Esto lo zanja de una vez. */
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--fuente-cuerpo);
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--pergamino);
+  background-color: var(--bosque-noche);
+  /* vetas de madera muy sutiles, sin imágenes */
+  background-image:
+    repeating-linear-gradient(96deg,
+      rgba(0, 0, 0, .13) 0px, rgba(0, 0, 0, .13) 1px,
+      transparent 1px, transparent 7px),
+    repeating-linear-gradient(93deg,
+      rgba(255, 255, 255, .022) 0px, rgba(255, 255, 255, .022) 2px,
+      transparent 2px, transparent 23px);
+  padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
+  -webkit-text-size-adjust: 100%;
+}
+
+h1, h2 { margin: 0; font-family: var(--fuente-titulo); font-weight: 700; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+button, input, select, a.boton, a.boton-alta { font: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--cobre-brillo);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Resplandor de fogata en una sola esquina */
+.fogata {
+  position: fixed;
+  inset: -20vh -30vw auto -10vw;
+  height: 70vh;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse at 78% 12%,
+    rgba(240, 162, 75, .20) 0%,
+    rgba(240, 162, 75, .09) 32%,
+    transparent 62%);
+}
+
+/* ---------- Cabecera ---------- */
+
+.cabecera {
+  position: relative;
+  z-index: 1;
+  padding: calc(.75rem + env(safe-area-inset-top)) .75rem .25rem;
+}
+
+.cabecera__marco {
+  display: flex;
+  align-items: center;
+  gap: .625rem;
+  padding: .5rem .625rem;
+  border: var(--borde);
+  border-radius: 14px;
+  background:
+    repeating-linear-gradient(90deg,
+      rgba(26, 40, 31, .22) 0px, rgba(26, 40, 31, .22) 2px,
+      transparent 2px, transparent 11px) top / 100% 5px no-repeat,
+    repeating-linear-gradient(90deg,
+      rgba(26, 40, 31, .22) 0px, rgba(26, 40, 31, .22) 2px,
+      transparent 2px, transparent 11px) bottom / 100% 5px no-repeat,
+    linear-gradient(180deg, var(--cobre-brillo), var(--cobre) 45%, var(--cobre-sombra));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), var(--sombra-ficha);
+}
+
+/* 38 px y no 44: el ícono es decorativo, no se toca, y esos 6 px son justo los que le
+   faltaban al banderín para que "La era del Crepúsculo" entre en una línea a 360 px. */
+.cabecera__icono {
+  flex: none;
+  width: 38px; height: 38px;
+  border: var(--borde);
+  border-radius: 10px;
+  background: var(--bosque);
+}
+
+.cabecera__titulo {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+  margin: 0 .375rem;
+  padding: .1875rem .5rem;
+  /* El nombre es largo: a 360 px va en dos líneas, partido siempre por el mismo sitio
+     en lugar de dejarlo al azar del ancho disponible. */
+  font-size: .9375rem;
+  line-height: 1.2;
+  letter-spacing: .03em;
+  text-align: center;
+  color: var(--tinta);
+  background: linear-gradient(180deg, #F6EEDC, var(--pergamino) 55%, var(--pergamino-som));
+  border: var(--borde);
+  border-radius: 4px;
+  box-shadow: 0 2px 0 rgba(26, 40, 31, .35);
+}
+
+/* extremos enrollados del banderín */
+.cabecera__titulo::before,
+.cabecera__titulo::after {
+  content: "";
+  position: absolute;
+  top: -3px; bottom: -3px;
+  width: 8px;
+  background: linear-gradient(180deg, var(--pergamino-som), #C3AC83);
+  border: var(--borde);
+  border-radius: 3px;
+}
+.cabecera__titulo::before { left: -7px; }
+.cabecera__titulo::after  { right: -7px; }
+
+.cabecera__titulo-b { display: block; }
+
+.boton-icono {
+  flex: none;
+  width: 44px; height: 44px;
+  font-size: 1.25rem;
+  color: var(--pergamino);
+  background: linear-gradient(180deg, var(--bosque-musgo), var(--bosque));
+  border: var(--borde);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* ---------- Lista de fichas ---------- */
+
+.campamento {
+  position: relative;
+  z-index: 1;
+  padding: .75rem;
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.vacio {
+  margin: 2.5rem .25rem;
+  padding: 1.75rem 1rem;
+  font-size: 1.0625rem;
+  font-style: italic;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--pergamino);
+  background: rgba(0, 0, 0, .18);
+  border: 2px dashed rgba(201, 154, 107, .45);
+  border-radius: 14px;
+}
+
+.ficha {
+  position: relative;   /* ancla del bloque de celebración (js/celebracion.js) */
+  padding: .75rem;
+  color: var(--tinta);
+  background:
+    radial-gradient(circle at 18% 8%, rgba(255, 255, 255, .5), transparent 45%),
+    linear-gradient(160deg, var(--pergamino), var(--pergamino-som));
+  border: var(--borde);
+  /* esquinas irregulares: parece cortada a mano */
+  border-radius: 14px 10px 15px 11px;
+  box-shadow: var(--sombra-ficha);
+}
+
+/* leve rotación alternada, como clavada en un tablón */
+.ficha:nth-child(odd)  { transform: rotate(-.6deg); }
+.ficha:nth-child(even) { transform: rotate(.6deg); }
+
+.ficha__cabeza {
+  display: flex;
+  align-items: center;
+  gap: .625rem;
+}
+
+/* Toda la cabecera es el botón de editar: un objetivo enorme, imposible de fallar
+   con el pulgar. El sello queda fuera para que siga leyéndose como dato. */
+.ficha__abrir {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: .625rem;
+  min-width: 0;
+  padding: 0;
+  text-align: left;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.ficha__id {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ficha__nombre {
+  font-family: var(--fuente-titulo);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--tinta);
+  overflow-wrap: anywhere;
+}
+
+.ficha__clase {
+  font-size: .9375rem;
+  color: var(--tinta-suave);
+}
+
+/* El lápiz avisa de que la cabecera se puede tocar. */
+.ficha__clase::after {
+  content: " ✎";
+  opacity: .55;
+}
+
+.token {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 56px; height: 56px;
+  font-size: 1.75rem;
+  background: linear-gradient(180deg, var(--bosque-musgo), var(--bosque));
+  border: var(--borde);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--cobre), 0 0 0 5px var(--contorno);
+  overflow: hidden;
+}
+
+.token img { width: 100%; height: 100%; object-fit: cover; }
+
+.token--grande { width: 72px; height: 72px; font-size: 2.25rem; }
+
+.sello {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 46px; height: 46px;
+  color: var(--pergamino);
+  background: radial-gradient(circle at 35% 30%, #C9603A, var(--hongo-hondo) 60%, #8C3A18);
+  border: var(--borde);
+  /* lacre: círculo deliberadamente imperfecto */
+  border-radius: 52% 48% 51% 49% / 49% 52% 48% 51%;
+  box-shadow: inset 0 2px 3px rgba(255, 255, 255, .28), 0 2px 0 rgba(26, 40, 31, .45);
+}
+
+.sello__num {
+  font-family: var(--fuente-titulo);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Bajar de nivel no se celebra: el sello se da la vuelta y ya (DISENO §5). */
+@keyframes girar-sello {
+  from { transform: rotate(0) scale(1); }
+  50%  { transform: rotate(-180deg) scale(.86); }
+  to   { transform: rotate(-360deg) scale(1); }
+}
+
+.sello.is-girando { animation: girar-sello 500ms cubic-bezier(.4, .1, .3, 1); }
+
+/* ---------- Barra de experiencia ---------- */
+
+.barra {
+  position: relative;
+  height: 22px;
+  margin-top: .75rem;
+  background: linear-gradient(180deg, #1D2B22, #2A3C30);
+  border: var(--borde);
+  border-radius: 11px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, .55), 0 0 0 2px var(--cobre-sombra);
+  overflow: hidden;
+}
+
+.barra__relleno {
+  height: 100%;
+  background: linear-gradient(180deg, var(--fuego), var(--hongo) 70%, var(--hongo-hondo));
+  border-radius: 9px 4px 4px 9px;
+  box-shadow: inset 0 2px 0 rgba(255, 240, 200, .5);
+  transition: width 700ms cubic-bezier(.2, .8, .25, 1);
+}
+
+/* Mientras el relleno retrocede se tiñe de vino: el color dice "pierde" antes de
+   que dé tiempo a leer el número. */
+.barra__relleno.is-restando {
+  background: linear-gradient(180deg, #B85A44, var(--vino) 70%, #6E2A1D);
+}
+
+/* Siempre en dos líneas: puestas una al lado de otra, unas fichas caben en una
+   línea y otras no, y la lista se ve descuadrada. */
+.cifras {
+  display: flex;
+  flex-direction: column;
+  gap: .0625rem;
+  margin-top: .375rem;
+  font-size: .875rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--tinta-suave);
+}
+
+.cifras__px { font-weight: 700; color: var(--tinta); }
+
+/* ---------- Acciones de PX ---------- */
+
+.acciones {
+  display: flex;
+  flex-direction: column;
+  gap: .625rem;
+  margin-top: .75rem;
+  padding-top: .75rem;
+  border-top: 1px dashed rgba(36, 50, 42, .3);
+}
+
+.acciones__fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+}
+
+.signo {
+  flex: none;
+  display: flex;
+  border: var(--borde);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.signo__op {
+  width: 40px; height: 44px;
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--pergamino);
+  background: linear-gradient(180deg, #4A5C50, #35473C);
+  border: 0;
+  cursor: pointer;
+}
+
+.signo__op:first-child.is-activo { background: linear-gradient(180deg, #A9503C, var(--vino)); }
+.signo__op:last-child.is-activo  { background: linear-gradient(180deg, var(--musgo), var(--musgo-hondo)); }
+
+/* Las cinco monedas se reparten el ancho completo de la ficha: a 360 px salen
+   de ~56 px, cómodas para el pulgar, y nunca se envuelven a otra fila. */
+.monedas {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: .5rem;
+  justify-items: center;
+}
+
+.monedas .moneda {
+  width: 100%;
+  max-width: 58px;
+  height: auto;
+  min-height: 44px;
+  aspect-ratio: 1;
+}
+
+.moneda {
+  width: 44px; height: 44px;
+  font-family: var(--fuente-titulo);
+  font-size: .9375rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #3A2413;
+  background: radial-gradient(circle at 35% 28%, var(--cobre-brillo), var(--cobre) 55%, var(--cobre-sombra));
+  border: var(--borde);
+  border-radius: 50%;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), 0 2px 0 rgba(26, 40, 31, .5);
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.moneda:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 0 0 rgba(26, 40, 31, .5);
+}
+
+.moneda--libre { font-size: 1.125rem; }
+
+/* Abierta la fila de cantidad libre, la moneda se enciende: el estado se ve en reposo,
+   sin depender de un hover (regla de oro 3). */
+.moneda--libre[aria-expanded="true"] {
+  color: var(--pergamino);
+  background: radial-gradient(circle at 35% 28%, var(--fuego), var(--hongo) 55%, var(--hongo-hondo));
+}
+
+.libre { display: flex; gap: .5rem; }
+
+.libre__campo {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: .5rem .625rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--tinta);
+  background: #FBF6E9;
+  border: var(--borde);
+  border-radius: 10px;
+  box-shadow: inset 0 2px 3px rgba(36, 50, 42, .15);
+  /* Las flechitas del input numérico son un control del sistema en plena ficha (regla de oro 10). */
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.libre__campo::-webkit-outer-spin-button,
+.libre__campo::-webkit-inner-spin-button { appearance: none; margin: 0; }
+
+/* ---------- Celebración de subida de nivel (DISENO.md §5) ---------- */
+
+.celebra-velo {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  opacity: 0;
+  transition: opacity 260ms ease;
+  /* viñeteado verde-cálido: claro en el centro, cerrado en los bordes */
+  background:
+    radial-gradient(ellipse at 50% 45%,
+      transparent 16%, rgba(12, 22, 16, .60) 60%, rgba(8, 16, 11, .88) 100%),
+    rgba(20, 34, 25, .30);
+}
+
+.celebra-velo.is-visible { opacity: 1; }
+
+/* `.campamento` crea su propio contexto de apilamiento, así que subir solo la ficha no
+   la sacaría por encima del velo: sube la lista entera y se apagan las demás fichas. */
+body.is-celebrando .campamento { z-index: 5; }
+
+body.is-celebrando .ficha,
+body.is-celebrando .aviso { transition: opacity 260ms ease; }
+
+body.is-celebrando .ficha:not(.is-subiendo) { opacity: .28; filter: saturate(.5); }
+body.is-celebrando .aviso { opacity: .25; }
+
+/* Se endereza al elevarse: pierde la rotación de "clavada en el tablón". */
+.ficha.is-subiendo {
+  transform: rotate(0) scale(1.035);
+  box-shadow:
+    0 0 0 2px var(--fuego),
+    0 10px 34px rgba(240, 162, 75, .45),
+    var(--sombra-ficha);
+}
+
+@keyframes fogonazo {
+  0%, 100% { box-shadow: inset 0 2px 4px rgba(0, 0, 0, .55), 0 0 0 2px var(--cobre-sombra); }
+  35%      { box-shadow: inset 0 2px 4px rgba(0, 0, 0, .18), 0 0 0 3px var(--fuego),
+                         0 0 24px 7px rgba(240, 162, 75, .85); }
+}
+
+.barra.is-fogonazo { animation: fogonazo 620ms ease-out; }
+
+.subida {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .625rem;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 42%,
+    rgba(255, 242, 210, .97), rgba(239, 229, 206, .95) 55%, rgba(216, 197, 160, .93));
+  cursor: pointer;   /* toda la ficha se puede tocar para saltarla */
+}
+
+.subida.is-saliendo { opacity: 0; transition: opacity 360ms ease; }
+
+/* El sello grande repite el lacre de la ficha, en el tamaño del momento importante. */
+.subida__sello {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 86px; height: 86px;
+  color: var(--pergamino);
+  background: radial-gradient(circle at 35% 30%, #C9603A, var(--hongo-hondo) 60%, #8C3A18);
+  border: var(--borde);
+  border-radius: 52% 48% 51% 49% / 49% 52% 48% 51%;
+  box-shadow: inset 0 2px 3px rgba(255, 255, 255, .28), 0 3px 0 rgba(26, 40, 31, .45);
+  animation: sello-cae 420ms cubic-bezier(.2, .9, .3, 1.2) both;
+}
+
+@keyframes sello-cae {
+  0%   { opacity: 0; transform: translateY(-110px) scale(1.5) rotate(-14deg); }
+  55%  { opacity: 1; transform: translateY(0) scale(.86) rotate(3deg); }
+  74%  { transform: translateY(-9px) scale(1.06) rotate(-1deg); }
+  100% { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
+}
+
+.subida__num {
+  font-family: var(--fuente-titulo);
+  font-size: 2.75rem;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0;
+}
+
+.subida__quien {
+  max-width: 90%;
+  font-family: var(--fuente-titulo);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-align: center;
+  color: var(--tinta);
+  opacity: 0;
+  overflow-wrap: anywhere;
+}
+
+.subida.is-rotulada .subida__num  { animation: numero-entra 420ms cubic-bezier(.2, .9, .3, 1.3) both; }
+.subida.is-rotulada .subida__quien { animation: rotulo-entra 380ms ease 90ms both; }
+
+@keyframes numero-entra {
+  0%   { opacity: 0; transform: scale(1.6); }
+  60%  { opacity: 1; transform: scale(.92); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes rotulo-entra {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Punto de origen de las esporas: el centro del sello. Sin tamaño propio. */
+.subida__esporas { position: absolute; top: 50%; left: 50%; }
+
+.espora {
+  position: absolute;
+  top: 0; left: 0;
+  width: var(--tam); height: var(--tam);
+  margin: calc(var(--tam) / -2) 0 0 calc(var(--tam) / -2);
+  background: radial-gradient(circle at 35% 30%, #FFF3CE, var(--fuego) 60%, var(--hongo));
+  border-radius: 50%;
+  opacity: 0;
+  animation: espora-vuela 900ms cubic-bezier(.15, .7, .3, 1) var(--retraso) both;
+}
+
+/* Girar primero y desplazar después manda la espora hacia su ángulo. */
+@keyframes espora-vuela {
+  0%   { opacity: 0; transform: rotate(var(--ang)) translateX(0) scale(.4); }
+  18%  { opacity: 1; }
+  100% { opacity: 0; transform: rotate(var(--ang)) translateX(var(--dist)) scale(1); }
+}
+
+/* ---------- Botón de alta ---------- */
+
+.barra-alta {
+  position: fixed;
+  z-index: 3;
+  left: 0; right: 0; bottom: 0;
+  padding: .75rem .75rem calc(.75rem + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, transparent, rgba(34, 54, 42, .85) 45%, var(--bosque-noche));
+}
+
+.boton-alta {
+  display: block;
+  padding: .8125rem;
+  font-family: var(--fuente-titulo);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-align: center;
+  text-decoration: none;
+  color: #3A2413;
+  background: linear-gradient(180deg, var(--cobre-brillo), var(--cobre) 50%, var(--cobre-sombra));
+  border: var(--borde);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4), 0 3px 0 rgba(26, 40, 31, .6);
+}
+
+.boton-alta:active { transform: translateY(2px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3); }
+
+/* ---------- Avisos ---------- */
+
+.aviso {
+  position: fixed;
+  z-index: 4;
+  left: .75rem;
+  right: .75rem;
+  bottom: calc(5.25rem + env(safe-area-inset-bottom));
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Vacía no debe ocupar ni interceptar nada; el contenedor no se puede ocultar con
+   `hidden` porque es la región viva y debe seguir en el documento. */
+.aviso:empty { display: none; }
+
+.aviso__pastilla {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  width: 100%;
+  max-width: 560px;
+  padding: .625rem .875rem;
+  color: var(--tinta);
+  background: linear-gradient(180deg, var(--pergamino), var(--pergamino-som));
+  border: var(--borde);
+  border-radius: 12px;
+  box-shadow: var(--sombra-ficha);
+  pointer-events: auto;
+}
+
+.aviso__pastilla--accion { padding: .5rem .5rem .5rem .875rem; }
+
+.aviso__texto {
+  flex: 1;
+  min-width: 0;
+  font-size: .9375rem;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.aviso__pastilla--accion .aviso__texto { text-align: left; }
+
+.aviso__accion {
+  flex: none;
+  min-height: 44px;
+  padding: 0 .875rem;
+  font-family: var(--fuente-titulo);
+  font-size: .9375rem;
+  font-weight: 700;
+  color: #3A2413;
+  background: linear-gradient(180deg, var(--cobre-brillo), var(--cobre) 55%, var(--cobre-sombra));
+  border: var(--borde);
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4), 0 2px 0 rgba(26, 40, 31, .5);
+  cursor: pointer;
+}
+
+.aviso__accion:active { transform: translateY(2px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3); }
+
+/* ---------- Hoja emergente ---------- */
+
+.hoja {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.hoja.is-abierta { opacity: 1; }
+
+body.sin-scroll { overflow: hidden; }
+
+.hoja__velo {
+  position: absolute;
+  inset: 0;
+  background: rgba(14, 24, 18, .68);
+}
+
+.hoja__cuerpo {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  max-height: 92vh;
+  overflow-y: auto;
+  padding: .75rem 1rem calc(1.25rem + env(safe-area-inset-bottom));
+  color: var(--tinta);
+  background: linear-gradient(180deg, var(--pergamino), var(--pergamino-som));
+  border-top: var(--borde);
+  border-radius: 18px 18px 0 0;
+  box-shadow: 0 -6px 24px rgba(0, 0, 0, .45);
+  transform: translateY(12%);
+  transition: transform 260ms cubic-bezier(.2, .8, .25, 1);
+}
+
+.hoja.is-abierta .hoja__cuerpo { transform: translateY(0); }
+
+.hoja__asa {
+  width: 44px; height: 5px;
+  margin: 0 auto .75rem;
+  background: rgba(36, 50, 42, .35);
+  border-radius: 3px;
+}
+
+.hoja__titulo {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+/* ---------- Formulario ---------- */
+
+.formulario { display: flex; flex-direction: column; gap: 1rem; }
+
+.campo { display: block; }
+
+.campo__etiqueta {
+  display: block;
+  margin-bottom: .3125rem;
+  font-size: .875rem;
+  font-weight: 700;
+  letter-spacing: .03em;
+  color: var(--tinta-suave);
+  text-transform: uppercase;
+}
+
+.campo__control {
+  width: 100%;
+  min-height: 46px;
+  padding: .5rem .625rem;
+  color: var(--tinta);
+  background: #FBF6E9;
+  border: var(--borde);
+  border-radius: 10px;
+  box-shadow: inset 0 2px 3px rgba(36, 50, 42, .15);
+}
+
+.error {
+  margin-top: .375rem;
+  font-size: .875rem;
+  font-weight: 700;
+  color: var(--vino);
+}
+
+.campo__control[aria-invalid="true"] { border-color: var(--vino); }
+
+.token-elegir { display: flex; align-items: center; gap: .875rem; }
+
+.token-elegir__lado { flex: 1; min-width: 0; }
+
+.token-elegir__botones { display: flex; gap: .5rem; }
+
+.token-elegir__nota {
+  margin-top: .375rem;
+  font-size: .8125rem;
+  color: var(--tinta-suave);
+}
+
+.hoja__pie {
+  display: flex;
+  gap: .625rem;
+  margin-top: .25rem;
+}
+
+.boton {
+  flex: 1;
+  min-height: 48px;
+  display: grid;
+  place-items: center;
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  border: var(--borde);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.boton--principal {
+  color: var(--pergamino);
+  background: linear-gradient(180deg, var(--musgo), var(--musgo-hondo));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 3px 0 rgba(26, 40, 31, .5);
+}
+
+.boton--fantasma {
+  flex: 0 0 38%;
+  color: var(--tinta);
+  background: rgba(36, 50, 42, .08);
+}
+
+.boton--menor {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 .875rem;
+  font-size: .9375rem;
+  color: #3A2413;
+  background: linear-gradient(180deg, var(--cobre-brillo), var(--cobre) 55%, var(--cobre-sombra));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4), 0 2px 0 rgba(26, 40, 31, .5);
+}
+
+.boton--peligro {
+  width: 100%;
+  margin-top: .25rem;
+  color: var(--pergamino);
+  background: linear-gradient(180deg, #A9503C, var(--vino));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 3px 0 rgba(26, 40, 31, .5);
+}
+
+/* Segundo toque: el botón cambia de aspecto para que quede claro que va en serio. */
+.boton--peligro.is-confirmando {
+  background: linear-gradient(180deg, #6E2317, #4E170E);
+  box-shadow: inset 0 0 0 2px var(--cobre-brillo), 0 3px 0 rgba(26, 40, 31, .5);
+}
+
+/* ---------- Pantallas anchas ---------- */
+
+@media (min-width: 700px) {
+  .cabecera, .campamento { max-width: 960px; margin-inline: auto; }
+
+  /* Con sitio de sobra, el nombre vuelve a una sola línea. */
+  .cabecera__titulo { font-size: 1.25rem; letter-spacing: .05em; }
+  .cabecera__titulo-b { display: inline; }
+
+  .lista {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: start;
+  }
+
+  .barra-alta { padding-inline: 0; }
+  .boton-alta { max-width: 960px; margin-inline: auto; }
+
+  /* en pantallas anchas la hoja no debe estirarse de lado a lado */
+  .hoja__cuerpo {
+    max-width: 560px;
+    margin-inline: auto;
+    border: var(--borde);
+    border-radius: 18px 18px 0 0;
+  }
+}
+
+/* ---------- Movimiento reducido ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 120ms !important;
+  }
+  .ficha { transform: none; }
+
+  /* Ruta reducida de la celebración: se conserva el fundido del sello y del texto, y se
+     van la ampliación, la caída, el fogonazo y las esporas (DISENO.md §5). */
+  .ficha.is-subiendo { transform: none; }
+  .barra.is-fogonazo { animation: none; }
+  .subida__esporas { display: none; }
+  .subida__sello { animation: none; }
+  .subida { transition: opacity 120ms ease; }
+  .subida__num, .subida__quien { opacity: 1; animation: none; }
+}

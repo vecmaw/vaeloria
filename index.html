@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#22362A">
+  <title>La era del Crepúsculo en Vaeloria</title>
+  <link rel="icon" href="recursos/iconos/icono-64.png">
+  <link rel="apple-touch-icon" href="recursos/iconos/icono-192.png">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+  <div class="fogata" aria-hidden="true"></div>
+
+  <header class="cabecera">
+    <div class="cabecera__marco">
+      <img class="cabecera__icono" src="recursos/iconos/icono-64.png" alt="" width="38" height="38">
+      <h1 class="cabecera__titulo">La era del Crepúsculo<span class="cabecera__titulo-b"> en Vaeloria</span></h1>
+      <button class="boton-icono" type="button" aria-label="Ajustes">⚙</button>
+    </div>
+  </header>
+
+  <main class="campamento">
+    <ul class="lista" id="lista"></ul>
+    <p class="vacio" id="vacio" hidden>El campamento está vacío.<br>Que llegue el primer aventurero.</p>
+  </main>
+
+  <!-- Molde de una ficha. app.js lo clona y rellena; así el marcado vive en el HTML
+       y los datos del usuario entran siempre por textContent. -->
+  <template id="plantilla-ficha">
+    <li class="ficha">
+      <div class="ficha__cabeza">
+        <button type="button" class="ficha__abrir">
+          <span class="token" aria-hidden="true"></span>
+          <span class="ficha__id">
+            <span class="ficha__nombre"></span>
+            <span class="ficha__clase"></span>
+          </span>
+        </button>
+        <div class="sello"><span class="sello__num"></span></div>
+      </div>
+
+      <div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="barra__relleno"></div>
+      </div>
+      <p class="cifras">
+        <span class="cifras__px"></span>
+        <span class="cifras__faltan"></span>
+      </p>
+
+      <div class="acciones">
+        <div class="acciones__fila">
+          <div class="signo" role="group" aria-label="Sumar o restar experiencia">
+            <button type="button" class="signo__op" data-signo="-1" aria-pressed="false" aria-label="Restar experiencia">−</button>
+            <button type="button" class="signo__op is-activo" data-signo="1" aria-pressed="true" aria-label="Sumar experiencia">+</button>
+          </div>
+          <button type="button" class="moneda moneda--libre" aria-label="Cantidad libre" aria-expanded="false">⌨</button>
+        </div>
+        <div class="monedas">
+          <button type="button" class="moneda" data-px="25">25</button>
+          <button type="button" class="moneda" data-px="50">50</button>
+          <button type="button" class="moneda" data-px="100">100</button>
+          <button type="button" class="moneda" data-px="250">250</button>
+          <button type="button" class="moneda" data-px="500">500</button>
+        </div>
+        <div class="libre" hidden>
+          <input class="libre__campo" type="number" inputmode="numeric" min="1" max="999999" step="1"
+                 placeholder="Cantidad de PX" aria-label="Cantidad de PX" autocomplete="off">
+          <button type="button" class="boton boton--menor libre__aplicar">Aplicar</button>
+        </div>
+      </div>
+    </li>
+  </template>
+
+  <!-- La región viva se queda siempre en el documento y se vacía al desaparecer: un
+       aria-live dentro de algo con `hidden` no se anuncia al volver a mostrarse. -->
+  <div class="aviso" id="aviso" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Celebración de subida de nivel. El velo oscurece la escena entera; el sello y el
+       texto se inyectan dentro de la propia ficha que sube. La subida ya se anuncia por
+       el aviso de arriba, así que esto queda fuera del árbol de accesibilidad. -->
+  <div class="celebra-velo" id="celebra-velo" hidden aria-hidden="true"></div>
+
+  <template id="plantilla-subida">
+    <div class="subida" aria-hidden="true">
+      <div class="subida__sello">
+        <span class="subida__num"></span>
+        <span class="subida__esporas"></span>
+      </div>
+      <p class="subida__quien"></p>
+    </div>
+  </template>
+
+  <div class="barra-alta">
+    <button class="boton-alta" type="button" id="boton-nuevo">＋ Nuevo aventurero</button>
+  </div>
+
+  <section class="hoja" id="hoja" hidden>
+    <div class="hoja__velo" id="hoja-velo"></div>
+
+    <div class="hoja__cuerpo" role="dialog" aria-modal="true" aria-labelledby="hoja-titulo">
+      <div class="hoja__asa" aria-hidden="true"></div>
+      <h2 class="hoja__titulo" id="hoja-titulo">Nuevo aventurero</h2>
+
+      <form class="formulario" id="formulario" novalidate>
+        <div class="campo">
+          <label class="campo__etiqueta" for="campo-nombre">Nombre</label>
+          <input class="campo__control" type="text" id="campo-nombre" maxlength="30"
+                 placeholder="Thalia Sombralarga" autocomplete="off" spellcheck="false">
+          <p class="error" id="error-nombre" hidden></p>
+        </div>
+
+        <div class="campo">
+          <label class="campo__etiqueta" for="campo-clase">Clase</label>
+          <!-- Las opciones las rellena app.js desde js/clases.js, para no duplicar la lista. -->
+          <select class="campo__control" id="campo-clase">
+            <option value="">Elige una clase…</option>
+          </select>
+          <p class="error" id="error-clase" hidden></p>
+        </div>
+
+        <div class="campo">
+          <span class="campo__etiqueta">Token</span>
+          <div class="token-elegir">
+            <div class="token token--grande" id="token-vista" aria-hidden="true">🍄</div>
+            <div class="token-elegir__lado">
+              <div class="token-elegir__botones">
+                <button type="button" class="boton boton--menor" id="boton-foto">Elegir foto</button>
+                <button type="button" class="boton boton--menor" id="boton-quitar" hidden>Quitar</button>
+              </div>
+              <p class="token-elegir__nota" id="token-nota">Sin foto se usa el emoji de la clase.</p>
+            </div>
+          </div>
+          <input type="file" id="campo-foto" accept="image/*" hidden>
+        </div>
+
+        <div class="hoja__pie">
+          <button type="button" class="boton boton--fantasma" id="boton-cancelar">Cancelar</button>
+          <button type="submit" class="boton boton--principal" id="boton-guardar">Sentar junto al fuego</button>
+        </div>
+
+        <button type="button" class="boton boton--peligro" id="boton-eliminar" hidden>Echar del campamento</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Scripts clásicos y en orden de dependencia, no módulos ES: los módulos se piden
+       por red y el navegador los bloquea bajo file://, así que abrir index.html con
+       doble clic no ejecutaba ni una línea (regla de oro 8). `defer` mantiene el orden
+       y espera a que el DOM esté montado. -->
+  <script defer src="js/xp.js"></script>
+  <script defer src="js/clases.js"></script>
+  <script defer src="js/almacen.js"></script>
+  <script defer src="js/imagen.js"></script>
+  <script defer src="js/celebracion.js"></script>
+  <script defer src="js/app.js"></script>
+
+</body>
+</html>

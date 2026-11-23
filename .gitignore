@@ -1,0 +1,12 @@
+# Configuración local del asistente
+.claude/
+
+# Exportaciones de partidas reales
+*.vaeloria.json
+respaldo-*.json
+
+# Sistema y editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
