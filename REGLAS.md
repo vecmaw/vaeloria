@@ -20,6 +20,8 @@ Se diseña y se prueba primero a **360 px de ancho**; el escritorio es el caso a
 Todo elemento tocable mide mínimo **44×44 px**. Nada de hovers como única forma de descubrir una acción.
 
 ## 4. Los datos son del dispositivo
+> **Excepción acordada (2026-11-23):** en el **modo en línea opcional** (Fases 8-11 de `docs/FASES.md`) los personajes viven en Firebase. Sin mesa conectada, esta regla rige tal cual.
+
 Todo vive en el teléfono (`localStorage`). Nada se sube a ningún lado.
 La única forma de que la información salga del dispositivo es que el usuario **exporte a mano** un archivo.
 
@@ -29,6 +31,8 @@ Toda escritura se valida antes de reemplazar lo guardado; si algo falla, se cons
 Eliminar un personaje siempre pide confirmación.
 
 ## 6. Sin login, sin usuarios, sin permisos
+> **Excepción acordada (2026-11-23):** en el modo en línea cada personaje tiene dueño y solo él lo edita, con identidad anónima y código de recuperación; sigue sin haber contraseñas ni modo máster.
+
 No hay cuentas, no hay dueños de personaje. Cualquiera que tenga el teléfono edita a cualquiera.
 Prohibido introducir roles, contraseñas o "modo máster".
 

@@ -200,7 +200,7 @@ página y mete en escena un cuadro gris del sistema, justo lo que prohíbe la re
 Cada paso es aditivo y no rompe lo anterior:
 
 1. **APK Android** — envolver esta misma carpeta con Capacitor.
-2. **Sincronización entre celulares** — reemplazar `almacen.js` por una versión con Firestore,
+2. **Sincronización entre celulares** — *decidido el 2026-11-23: Firebase (Firestore), ver Fases 8-11 de `FASES.md`.* Reemplazar `almacen.js` por una versión con Firestore,
    manteniendo la misma interfaz de funciones.
 3. **Varias campañas** — el estado ya es un objeto con `version`; se le añade `campanas[]`.
 4. **Historial completo de PX por personaje** — el modelo ya reserva el campo.

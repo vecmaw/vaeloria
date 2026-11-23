@@ -53,6 +53,8 @@ Repo en https://github.com/vecmaw/vaeloria (público), Pages desde `main` en htt
 
 **Añadido el 2026-11-23:** selector de clase en tablillas y pool de 4 tokens de la mesa (`js/tokens-base.js`); caché ya en `vaeloria-v2`.
 
+**Modo en línea planificado (2026-11-23):** cada jugador gestiona solo su personaje y ve a los demás en directo. Firebase + identidad anónima con código de recuperación; v1 local intacta. Fases 8-11 en `docs/FASES.md`. Reglas 4 y 6 reabiertas solo para ese modo.
+
 **Al publicar cambios futuros:** subir `VERSION` en `sw.js`, o nadie verá la actualización.
 
 ---

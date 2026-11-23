@@ -14,6 +14,14 @@
 
 ---
 
+## 2026-11-23 — Planificación del modo en línea
+
+**Hecho:** Fases 8-11 en `docs/FASES.md`; excepciones a las reglas 4 y 6 anotadas en `REGLAS.md`; `ESTADO.md`, `ARQUITECTURA.md` y `APRENDIZAJE.md` al día.
+**Decidido:** cada quien edita solo el suyo; Firebase (Firestore); identidad anónima con código de recuperación; v1 local intacta y modo en línea opcional.
+**Pendiente:** nada de código aún. Siguiente paso posible: Fase 8 (contrato del almacén). Validar antes la recuperación por código solo con reglas de Firestore.
+
+---
+
 ## 2026-11-23 — Publicación y regla de mantener el sitio al día
 
 **Hecho:** `fase-6-pwa` fusionada a `main` y subida; el sitio no mostraba los cambios porque Pages solo publica `main`.

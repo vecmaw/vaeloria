@@ -254,6 +254,7 @@ sobre tamaños se confirma en la app real, con `getBoundingClientRect()`.
   muerta. Los archivos de `js/` se cargan como `<script defer>` en orden desde `index.html`.
 - **Restar PX puede bajar de nivel.** Es un caso real (corregir un error de la sesión anterior), no un
   caso raro: hay que manejarlo sin celebración y sin dejar la barra en un estado inconsistente.
+- **Modo en línea acordado (2026-11-23): se reabren las reglas 4 y 6, solo para ese modo.** Cada quien edita solo su personaje; Firebase; identidad anónima con código de recuperación. Cambia lo descartado antes ("sin sincronización") porque el grupo quiere ver a los demás en directo y la plataforma lo hará necesario. Ojo: Cloud Functions exige tarjeta (regla 1), así que la recuperación de identidad debe resolverse solo con reglas de Firestore; validar antes de la Fase 11.
 - **La plataforma del grupo choca con varias reglas de oro (1, 4, 6, 7, 8), y se decidió no reabrirlas
   todavía (2026-11-23).** La v1 standalone las conserva. Lo que sí deja la puerta abierta es que
   `almacen.js` sea la única puerta a los datos y que `xp.js`, `clases.js` y `celebracion.js` no

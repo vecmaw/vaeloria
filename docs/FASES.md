@@ -14,7 +14,10 @@ anota el recorte en `APRENDIZAJE.md` (regla de oro 9).
 | 5 | Celebración de subida de nivel | 45 min | ✅ Completada |
 | 6 | PWA instalable y offline | 45 min | 🟡 Código hecho, falta probar en el celular |
 | 7 | Publicación, respaldos y GitHub | 1 h | ⬜ |
-| 8 | Preparar el módulo para la plataforma | por definir | ⬜ (condicionada, ver abajo) |
+| 8 | Contrato del almacén y modelo (sin servidor) | por definir | ⬜ condicionada |
+| 9 | Ver la mesa en directo (solo lectura) | por definir | ⬜ condicionada |
+| 10 | Gestionar el propio personaje en línea | por definir | ⬜ condicionada |
+| 11 | Recuperación de identidad | por definir | ⬜ condicionada |
 
 **Mínimo utilizable:** al terminar la Fase 4 la app ya sirve en una partida real.
 La Fase 5 es su alma. Las Fases 6 y 7 son la entrega, y pueden hacerse otro día sin bloquear el uso.
@@ -173,24 +176,65 @@ señal, y un archivo exportado se puede importar en otro teléfono.
 
 ---
 
-## Fase 8 — Preparar el módulo para la plataforma · condicionada
+## Modo en línea (Fases 8 a 11) · condicionado
 
-El grupo está valorando una plataforma web de D&D (subir sesiones, diseños, etc.) en la que esta app
-entraría como módulo. **No arranca hasta que el grupo decida stack y alcance de la plataforma** y la
-v1 (Fases 6-7) esté publicada. Sirve de demo y de prototipo del módulo mientras tanto.
+**Idea (2026-11-23):** que cada jugador cree y gestione **solo su personaje**, vea a los demás de la mesa
+y los vea moverse en directo (barras de PX y nivel). Encaja como módulo de la futura plataforma del grupo.
 
-Trabajo previsto, todo aditivo y sin romper la v1 standalone:
+**Decisiones del dueño (2026-11-23):**
 
+1. **Cada quien edita solo el suyo.** Sin rol de máster por ahora; el máster dice cuántos PX y cada
+   jugador se los suma.
+2. **Firebase (Firestore)** como base de datos: gratis sin tarjeta (plan Spark), tiempo real y
+   modo offline incluidos. Si la plataforma del grupo trae su propio backend, solo se reescribe el
+   adaptador (ver Fase 8): la interfaz del almacén no cambia.
+3. **Identidad anónima + código de recuperación.** Sin cuentas ni contraseñas.
+4. **La v1 local se conserva.** El modo en línea es **opcional**: sin mesa conectada, la app se
+   comporta exactamente como hoy (reglas 2, 4 y 6 intactas en ese modo).
+
+**Reglas de oro:** estas decisiones reabren explícitamente la **4** (datos del dispositivo) y la **6**
+(sin usuarios) **solo para el modo en línea**. La 1 (costo cero) se cumple con el plan gratuito de
+Firebase. La 2 y la 8 se cumplen si el SDK se guarda como archivo local en el repositorio (sin `npm`,
+sin CDN) y la app sigue abriendo con la caché local sin señal.
+
+### Fase 8 — Contrato del almacén y modelo (sin servidor)
 - Partir `app.js` (sacar `js/formulario.js`), deuda ya conocida.
-- Escribir el **contrato de `almacen.js`**: la lista exacta de funciones y formas de datos que la
-  plataforma tendría que implementar para reemplazarlo (ver `ARQUITECTURA.md` §7 y decisión D2).
-- Separar lo reutilizable (`xp.js`, `clases.js`, `celebracion.js`: lógica y pintura sin datos) de lo
-  específico de la pantalla única.
-- Elegir cómo se embebe: iframe, paquete de scripts o componente, según el stack de la plataforma.
+- Definir y documentar el **contrato de `almacen.js`**: leer, guardar, eliminar, **suscribirse a
+  cambios** y quién es el dueño. Todo asíncrono, aunque el modo local responda al instante.
+- Añadir `duenoId` y `mesaId` al personaje con migración (copia de seguridad antes, regla 5).
+  En modo local, el dueño es siempre "este dispositivo".
+- Dejar `xp.js`, `clases.js` y `celebracion.js` sin dependencias de pantalla ni de datos.
 
-**Reglas de oro:** por decisión del 2026-11-23 **ninguna se reabre todavía**. Las que chocan con una
-plataforma (1, 4, 6, 7, 8) se evaluarán una a una cuando el grupo defina el stack; cualquier cambio
-exige decisión explícita del dueño y entrada en `APRENDIZAJE.md`. La v1 standalone conserva todas.
+**Terminado cuando:** la app local funciona igual que antes sobre el contrato nuevo, y ningún archivo
+fuera de `almacen.js` conoce `localStorage`.
+
+### Fase 9 — Ver la mesa en directo (solo lectura)
+- Proyecto Firebase, SDK guardado en `recursos/` y adaptador en línea de `almacen.js`.
+- Autenticación anónima. Entrar a una **mesa** con un código corto o enlace.
+- Lista con los personajes de todos, las barras y niveles actualizándose en vivo; los ajenos sin
+  botones de edición. Reglas de Firestore: lectura para cualquier jugador de la mesa.
+
+**Terminado cuando:** dos teléfonos en la misma mesa ven moverse la barra del otro en menos de ~2 s.
+
+### Fase 10 — Gestionar el propio personaje en línea
+- Reglas de seguridad: **solo el dueño escribe su personaje** (`request.auth.uid == duenoId`),
+  y solo puede cambiar campos válidos (PX no negativos, topes de nombre).
+- Crear, editar y eliminar el propio personaje en línea; el resto en solo lectura.
+- Edición **sin señal** con cola local y sincronización al volver.
+
+**Terminado cuando:** un jugador no puede, ni forzando la app, modificar el personaje de otro.
+
+### Fase 11 — Recuperación de identidad
+- Mostrar un **código de recuperación** al crear el personaje y permitir reclamarlo desde otro
+  dispositivo. Sin Cloud Functions (exigen tarjeta, regla 1): se resuelve con una colección de
+  recuperación consultada por código y reglas de Firestore. Técnica por validar antes de comprometerse.
+- Exportar e importar JSON sigue valiendo como respaldo.
+
+**Terminado cuando:** borrar los datos del navegador y reclamar con el código devuelve el personaje.
+
+**Riesgos:** perder el código = perder el personaje (aviso claro al crearlo); la identidad anónima
+se borra al limpiar datos del sitio; los límites gratuitos de Firestore (lecturas por día) son holgados
+para una mesa pero conviene vigilarlos; los tokens `data:` van dentro del documento (~4 KB, bien).
 
 ---
 
