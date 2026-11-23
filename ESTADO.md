@@ -24,11 +24,11 @@ teléfono, se publica gratis en GitHub Pages y se instala en la pantalla de inic
 
 | | |
 |---|---|
-| **Fase** | 5 — Celebración de subida de nivel |
-| **Estado** | ✅ Completada y verificada en el navegador |
-| **Siguiente** | Fase 6 — PWA instalable y offline (ver `docs/FASES.md`) |
-| **Código escrito** | `index.html`, `css/estilo.css` y `js/`: `app.js`, `almacen.js`, `xp.js`, `clases.js`, `imagen.js`, `celebracion.js` |
-| **Recursos listos** | `recursos/iconos/`: `icono-original.png` (1024, arte fuente) + 512 · 192 · 64 |
+| **Fase** | 6 — PWA instalable y offline |
+| **Estado** | 🟡 Código escrito en la rama `fase-6-pwa`; falta fusionar a `main` y probar en el celular |
+| **Siguiente** | Fase 7 — Exportar/importar y README (ver `docs/FASES.md`) |
+| **Código escrito** | `index.html`, `css/estilo.css` y `js/` (siete archivos, incl. `pwa.js`), `manifest.webmanifest`, `sw.js` |
+| **Recursos listos** | `recursos/iconos/`: `icono-original.png` (1024, arte fuente) + 512 (comprimido, 125 KB) · 192 · 64 · maskable-512 |
 
 **Estado real de la app: la v1 está funcionalmente completa.** Se crean, editan y eliminan aventureros
 con foto o con el emoji de su clase, se les suma y resta experiencia con las monedas o con una cantidad
@@ -42,20 +42,16 @@ El grupo valora una plataforma de D&D (subir sesiones, diseños…) y esta app p
 **Decidido:** terminar primero la v1 (Fases 6-7) y publicarla como demo; **ninguna regla de oro se
 reabre todavía**; trabajo con GitHub desde ya (flujo en `docs/FASES.md`, repo en cuenta personal por
 ahora). La Fase 8 (preparar el módulo) queda condicionada a que el grupo defina stack y alcance.
-Hay `git init` local y `.gitignore`; **falta crear el repositorio remoto en GitHub** (no hay `gh` instalado).
+Repo en https://github.com/vecmaw/vaeloria (público), Pages desde `main` en https://vecmaw.github.io/vaeloria/.
 
 ## Próximo paso concreto
 
-Antes o junto a la Fase 6: crear el repo en GitHub, primer commit y conectar el remoto.
-Después, Fase 6: PWA instalable y offline. Escribir `manifest.webmanifest` (`name` "La era del Crepúsculo en
-Vaeloria", `short_name` "Vaeloria", `display: standalone`, `theme_color: #22362A`) y `sw.js` con caché
-versionada *cache-first*, borrando las cachés viejas al activar. **Ojo con tres cosas:**
+1. **Fusionar `fase-6-pwa` a `main`** (PR en GitHub) y esperar a que Pages se actualice.
+2. **Probar en el celular, contra la URL publicada:** instalar, abrir a pantalla completa, poner modo avión, cerrar del todo y reabrir. Hasta que eso pase, la Fase 6 no está terminada.
+3. **Rehacer el banderín "D&D CAMP"** del arte y regenerar los iconos (los actuales son provisionales).
+4. Fase 7: exportar/importar JSON.
 
-1. **La lista de la caché son ya 6 archivos JS**, no 5: no olvidar `js/celebracion.js`.
-2. **El service worker no se registra desde `file://`.** Para probar el modo avión hace falta
-   `python -m http.server` o la URL publicada.
-3. **Antes de generar los iconos definitivos**, rehacer el banderín del arte, que sigue diciendo
-   "D&D CAMP" (ver deuda pendiente).
+**Al publicar cambios futuros:** subir `VERSION` en `sw.js`, o nadie verá la actualización.
 
 ---
 

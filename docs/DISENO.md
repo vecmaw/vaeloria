@@ -278,7 +278,7 @@ El arte fuente es `recursos/iconos/icono-original.png` (1024×1024) y se conserv
 - `icono-192.png` (77 KB) — manifiesto y `apple-touch-icon`.
 - `icono-64.png` (10 KB) — favicon y la marca de la cabecera.
 
-**Pendiente para la Fase 6:**
+**Hecho en la Fase 6** (`icono-maskable-512.png` con el arte al 66 % sobre verde `#2F4D35`, y `icono-512.png` comprimido a ~125 KB; ambos siguen con el banderín "D&D CAMP" y se regeneran con ffmpeg cuando haya arte nuevo). Lo que era pendiente:
 
 - `icono-maskable-512.png` — con margen extra de seguridad, porque Android recorta los iconos a
   círculo o *squircle* y el marco de cobre quedaría cortado.

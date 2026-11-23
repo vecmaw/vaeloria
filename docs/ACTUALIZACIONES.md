@@ -14,6 +14,19 @@
 
 ---
 
+## 2026-11-23 — Fase 6: PWA instalable y offline (código)
+
+**Hecho:**
+- `manifest.webmanifest`, `sw.js` (caché `vaeloria-v1`, cache-first, borra cachés viejas al activar) y `js/pwa.js` (registro del SW y `storage.persist()`; no registra bajo `file://`).
+- `icono-maskable-512.png` nuevo (arte al 66 % sobre verde) e `icono-512.png` comprimido de 501 a 125 KB con ffmpeg (paleta de 128 colores).
+- Comprobado por script: todos los archivos de la caché existen, el manifest es JSON válido y no hay nombres globales repetidos.
+
+**Decidido:** `pwa.js` va aparte y no en `app.js`, que ya pasa de 600 líneas.
+
+**Pendiente:** probar instalación y modo avión en el celular contra la URL publicada; rehacer el banderín "D&D CAMP" y regenerar iconos.
+
+---
+
 ## 2026-11-23 — Retomar el proyecto y planificar GitHub y plataforma
 
 **Hecho:**

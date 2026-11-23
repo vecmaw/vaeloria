@@ -12,7 +12,7 @@ anota el recorte en `APRENDIZAJE.md` (regla de oro 9).
 | 3 | Alta, edición y token de personajes | 1 h 15 | ✅ Completada |
 | 4 | Sumar y restar PX con la barra viva | 1 h | ✅ Completada |
 | 5 | Celebración de subida de nivel | 45 min | ✅ Completada |
-| 6 | PWA instalable y offline | 45 min | ⬜ |
+| 6 | PWA instalable y offline | 45 min | 🟡 Código hecho, falta probar en el celular |
 | 7 | Publicación, respaldos y GitHub | 1 h | ⬜ |
 | 8 | Preparar el módulo para la plataforma | por definir | ⬜ (condicionada, ver abajo) |
 

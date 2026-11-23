@@ -42,10 +42,10 @@ Sin servidor, sin base de datos, sin cuentas. Todo el estado vive en el navegado
 
 ### Cómo se cargan los archivos de `js/`
 
-No hay módulos ES. `index.html` termina con seis `<script defer>` **en orden de dependencia**:
+No hay módulos ES. `index.html` termina con siete `<script defer>` **en orden de dependencia**:
 
 ```
-xp.js → clases.js → almacen.js → imagen.js → celebracion.js → app.js
+xp.js → clases.js → almacen.js → imagen.js → celebracion.js → pwa.js → app.js
 ```
 
 `defer` conserva ese orden y espera a que el DOM esté montado, que es lo que `app.js` y
