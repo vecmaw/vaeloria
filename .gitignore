@@ -10,3 +10,6 @@ respaldo-*.json
 Thumbs.db
 .vscode/
 .idea/
+
+# Material de trabajo del grupo (PDFs, hojas, arte suelto); lo que usa la app va en recursos/
+DND/

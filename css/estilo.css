@@ -784,6 +784,78 @@ body.sin-scroll { overflow: hidden; }
 
 .campo__control[aria-invalid="true"] { border-color: var(--vino); }
 
+/* Selector de clase: tablillas de pergamino con marco, la elegida se enciende en cobre. */
+.clases {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .5rem;
+}
+
+.clase {
+  min-height: 58px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .125rem;
+  padding: .3125rem .25rem;
+  font-family: var(--fuente-titulo);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: var(--tinta);
+  background: linear-gradient(#FBF6E9, var(--pergamino-som));
+  border: var(--borde);
+  border-radius: 10px;
+  box-shadow: 0 2px 0 rgba(26, 40, 31, .45);
+  cursor: pointer;
+  transition: transform .12s, box-shadow .12s;
+}
+
+.clase__emoji { font-size: 1.375rem; line-height: 1; }
+
+.clase:active { transform: translateY(2px); box-shadow: 0 0 0 rgba(26, 40, 31, .45); }
+
+.clase[aria-checked="true"] {
+  color: var(--pergamino);
+  background: linear-gradient(var(--cobre-brillo), var(--cobre) 55%, var(--cobre-sombra));
+  border-color: var(--contorno);
+  box-shadow: 0 0 0 2px var(--fuego), 0 0 14px rgba(240, 162, 75, .55);
+  text-shadow: 0 1px 0 rgba(26, 40, 31, .7);
+}
+
+.clases[aria-invalid="true"] .clase { border-color: var(--vino); }
+
+.token-elegir__sub {
+  margin: .875rem 0 .5rem;
+  font-size: .8125rem;
+  font-weight: 700;
+  letter-spacing: .03em;
+  color: var(--tinta-suave);
+  text-transform: uppercase;
+}
+
+.tokens-base { display: flex; justify-content: space-between; gap: .5rem; }
+
+.token-base {
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform .12s, box-shadow .12s;
+}
+
+.token-base img { display: block; width: 100%; height: 100%; border-radius: 50%; }
+
+.token-base:active { transform: scale(.94); }
+
+.token-base[aria-checked="true"] {
+  box-shadow: 0 0 0 3px var(--pergamino), 0 0 0 5px var(--fuego), 0 0 14px rgba(240, 162, 75, .6);
+}
+
 .token-elegir { display: flex; align-items: center; gap: .875rem; }
 
 .token-elegir__lado { flex: 1; min-width: 0; }

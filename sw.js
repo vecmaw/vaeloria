@@ -2,7 +2,7 @@
 
 /* Subir el número de VERSION en cada publicación: es lo que hace que los teléfonos
    descarten la caché vieja y vean los cambios. */
-const VERSION = 'vaeloria-v1';
+const VERSION = 'vaeloria-v2';
 
 const ARCHIVOS = [
   './',
@@ -14,6 +14,7 @@ const ARCHIVOS = [
   'js/almacen.js',
   'js/imagen.js',
   'js/celebracion.js',
+  'js/tokens-base.js',
   'js/pwa.js',
   'js/app.js',
   'recursos/iconos/icono-64.png',

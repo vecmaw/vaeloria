@@ -14,6 +14,21 @@
 
 ---
 
+## 2026-11-23 — Selector de clase y tokens de la mesa
+
+**Hecho:**
+- Las 13 clases se eligen ahora con tablillas de pergamino (emoji + nombre) en vez del `<select>`; la elegida se enciende en cobre. Valor en un `<input hidden>`, validación igual que antes.
+- `js/tokens-base.js` (archivo nuevo): 4 tokens de la mesa (desde `DND/TOKENS`) a 160 px WebP, incrustados como `data:` URL. En la hoja, bajo "Elegir foto", aparecen para elegir con un toque; otro toque los suelta.
+- `sw.js` pasa a `vaeloria-v2` y cachea el archivo nuevo.
+- `DND/` (material de trabajo con PDFs) va al `.gitignore`.
+- Verificado en Chrome: 13 fichas de clase, 4 tokens, elegir/soltar, guardar y la ficha muestra el token; sin errores en consola.
+
+**Decidido:** los tokens van incrustados y **no** como archivos `.png`: bajo `file://` un `<canvas>` no puede leer imágenes sueltas, y así el valor guardado es idéntico al de una foto propia (sin cambio de modelo de datos ni migración).
+
+**Pendiente:** ampliar el pool (convertir a 160 px y sumar entrada en `tokens-base.js`); revisar el selector en un celular real. Alcance nuevo pedido por el usuario, fuera del plan original de la v1.
+
+---
+
 ## 2026-11-23 — Fase 6: PWA instalable y offline (código)
 
 **Hecho:**

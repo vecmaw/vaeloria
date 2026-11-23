@@ -51,6 +51,8 @@ Repo en https://github.com/vecmaw/vaeloria (público), Pages desde `main` en htt
 3. **Rehacer el banderín "D&D CAMP"** del arte y regenerar los iconos (los actuales son provisionales).
 4. Fase 7: exportar/importar JSON.
 
+**Añadido el 2026-11-23:** selector de clase en tablillas y pool de 4 tokens de la mesa (`js/tokens-base.js`); caché ya en `vaeloria-v2`.
+
 **Al publicar cambios futuros:** subir `VERSION` en `sw.js`, o nadie verá la actualización.
 
 ---

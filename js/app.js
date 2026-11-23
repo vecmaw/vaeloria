@@ -25,6 +25,8 @@ const tituloHoja = document.getElementById('hoja-titulo');
 const formulario = document.getElementById('formulario');
 const campoNombre = document.getElementById('campo-nombre');
 const campoClase = document.getElementById('campo-clase');
+const contenedorClases = document.getElementById('clases');
+const contenedorTokensBase = document.getElementById('tokens-base');
 const campoFoto = document.getElementById('campo-foto');
 const errorNombre = document.getElementById('error-nombre');
 const errorClase = document.getElementById('error-clase');
@@ -380,13 +382,50 @@ function aplicarLibre(nodo) {
 /* ---------- La hoja ---------- */
 
 function rellenarClases() {
-  const opciones = Object.entries(CLASES).map(([clave, datos]) => {
-    const opcion = document.createElement('option');
-    opcion.value = clave;
-    opcion.textContent = `${datos.emoji} ${datos.nombre}`;
-    return opcion;
+  const fichas = Object.entries(CLASES).map(([clave, datos]) => {
+    const ficha = document.createElement('button');
+    ficha.type = 'button';
+    ficha.className = 'clase';
+    ficha.dataset.clase = clave;
+    ficha.setAttribute('role', 'radio');
+    ficha.setAttribute('aria-checked', 'false');
+    const emoji = document.createElement('span');
+    emoji.className = 'clase__emoji';
+    emoji.setAttribute('aria-hidden', 'true');
+    emoji.textContent = datos.emoji;
+    ficha.append(emoji, datos.nombre);
+    return ficha;
   });
-  campoClase.append(...opciones);
+  contenedorClases.append(...fichas);
+}
+
+function rellenarTokensBase() {
+  const fichas = TOKENS_BASE.map((token) => {
+    const ficha = document.createElement('button');
+    ficha.type = 'button';
+    ficha.className = 'token-base';
+    ficha.dataset.token = token.id;
+    ficha.setAttribute('role', 'radio');
+    ficha.setAttribute('aria-checked', 'false');
+    ficha.setAttribute('aria-label', token.nombre);
+    const img = document.createElement('img');
+    img.src = token.datos;
+    img.alt = '';
+    ficha.append(img);
+    return ficha;
+  });
+  contenedorTokensBase.append(...fichas);
+}
+
+/* Enciende la clase y el token de la mesa que correspondan al estado actual. */
+function pintarSelecciones() {
+  for (const ficha of contenedorClases.children) {
+    ficha.setAttribute('aria-checked', String(ficha.dataset.clase === campoClase.value));
+  }
+  const base = TOKENS_BASE.find((token) => token.datos === fotoActual);
+  for (const ficha of contenedorTokensBase.children) {
+    ficha.setAttribute('aria-checked', String(ficha.dataset.token === base?.id));
+  }
 }
 
 function limpiarErrores() {
@@ -395,7 +434,7 @@ function limpiarErrores() {
     nodo.hidden = true;
   }
   campoNombre.removeAttribute('aria-invalid');
-  campoClase.removeAttribute('aria-invalid');
+  contenedorClases.removeAttribute('aria-invalid');
 }
 
 function marcarError(nodo, campo, texto) {
@@ -405,13 +444,16 @@ function marcarError(nodo, campo, texto) {
 }
 
 function actualizarVistaToken() {
+  pintarSelecciones();
   if (fotoActual) {
     const img = document.createElement('img');
     img.src = fotoActual;
     img.alt = '';
     tokenVista.replaceChildren(img);
     botonQuitar.hidden = false;
-    tokenNota.textContent = 'Recortada al centro y guardada en pequeño.';
+    tokenNota.textContent = TOKENS_BASE.some((token) => token.datos === fotoActual)
+      ? 'Uno de los tokens de la mesa.'
+      : 'Recortada al centro y guardada en pequeño.';
   } else {
     tokenVista.textContent = campoClase.value ? datosClase(campoClase.value).emoji : '🍄';
     botonQuitar.hidden = true;
@@ -475,7 +517,7 @@ function enviar() {
     correcto = false;
   }
   if (!clase) {
-    marcarError(errorClase, campoClase, 'Elige una clase.');
+    marcarError(errorClase, contenedorClases, 'Elige una clase.');
     correcto = false;
   }
   if (!correcto) return;
@@ -565,7 +607,23 @@ document.addEventListener('keydown', (evento) => {
   if (evento.key === 'Escape' && !hoja.hidden) cerrarHoja();
 });
 
-campoClase.addEventListener('change', actualizarVistaToken);
+contenedorClases.addEventListener('click', (evento) => {
+  const ficha = evento.target.closest('.clase');
+  if (!ficha) return;
+  campoClase.value = ficha.dataset.clase;
+  contenedorClases.removeAttribute('aria-invalid');
+  errorClase.hidden = true;
+  actualizarVistaToken();
+});
+
+contenedorTokensBase.addEventListener('click', (evento) => {
+  const ficha = evento.target.closest('.token-base');
+  if (!ficha) return;
+  const { datos } = TOKENS_BASE.find((token) => token.id === ficha.dataset.token);
+  // Tocar otra vez el elegido lo suelta y vuelve al emoji de la clase.
+  fotoActual = fotoActual === datos ? null : datos;
+  actualizarVistaToken();
+});
 
 botonFoto.addEventListener('click', () => campoFoto.click());
 
@@ -610,4 +668,5 @@ botonEliminar.addEventListener('click', () => {
 });
 
 rellenarClases();
+rellenarTokensBase();
 dibujar();
