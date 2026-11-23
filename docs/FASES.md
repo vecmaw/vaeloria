@@ -199,6 +199,8 @@ exige decisión explícita del dueño y entrada en `APRENDIZAJE.md`. La v1 stand
 - **Repositorio:** cuenta personal por ahora; se transfiere o se mueve a la organización del grupo
   cuando exista. Nombre en español y sin tildes, p. ej. `vaeloria`.
 - **`main` siempre desplegable.** Pages publica desde ahí, así que nada roto entra a `main`.
+- **Regla: la URL publicada siempre está al día.** Al cerrar cada sesión con cambios, se fusionan a `main`
+  y se sube (ver `CLAUDE.md`, cierre de sesión). Una rama sin fusionar no se ve en el sitio.
 - **Una rama por fase o tarea** (`fase-6-pwa`, `deuda-formulario`, `arte-banderin`) y PR hacia `main`,
   con una línea de qué cambia y cómo se verificó.
 - **Commits en español**, en imperativo y de un solo tema.

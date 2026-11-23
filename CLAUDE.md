@@ -48,5 +48,8 @@ Ninguna sesión termina sin:
 1. Actualizar **`ESTADO.md`**: fase, estado, próximo paso concreto y riesgos abiertos.
 2. Agregar una entrada a **`docs/ACTUALIZACIONES.md`** (hecho / decidido / pendiente).
 3. Si hubo un tropiezo, un recorte de alcance o un hallazgo no obvio, anotarlo en **`docs/APRENDIZAJE.md`**.
+4. **Publicar:** si hubo cambios en la app, subir `VERSION` en `sw.js`, hacer commit, fusionar a `main` y
+   `git push origin main`, para que https://vecmaw.github.io/vaeloria/ quede siempre al día (GitHub Pages
+   solo publica `main`). Comprobar después con `curl` que la URL responde 200. Decisión del dueño, 2026-11-23.
 
 El objetivo es que la siguiente sesión pueda retomar el trabajo leyendo solo `ESTADO.md`.
